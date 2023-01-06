@@ -1,0 +1,23 @@
+appVersion: v1
+kind: ReplicaSet
+metadata:
+  labels:
+    app: App1
+    function: Front-end
+  annotations:
+    buildversion: 1.4
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: App1
+      function: Front-end @@ to filter @@
+  template:
+    metadata:
+      labels:
+        app: App1
+        function: Front-end
+    spec:
+      containers:
+      - name: website
+        image: myimage

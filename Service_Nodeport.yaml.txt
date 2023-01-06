@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+spec:
+  type: NodePort
+  ports:
+  - targetPort: 8080 @@@ port on pod @@@
+    port: 80
+    nodePort: 30008
+  selector:
+    app: myapp
+    type: front-end

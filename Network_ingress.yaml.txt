@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: access-nginx
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+  podSelector:
+    matchLabels:
+      app: nginx
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          access: "true"
+          name: api-pod
+      namespaceSelector:
+          name: staging
+    - ipBlock:
+          cidr: 192.168.5.10/32
+    ports:
+    - protocol: TCP
+      port: 3306
+  egress:
+  -  to:
+	- ipBlock:
+		cidr: 192.168.5.10/32
+     ports:
+     - protocol: TCP
+       port: 80
