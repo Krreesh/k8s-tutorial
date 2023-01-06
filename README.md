@@ -166,6 +166,7 @@ configmaps = cm
 endpoints = ep
 events = ev
 limitranges = limits
+namespace = n
 namespaces = ns
 nodes = no
 persistentvolumeclaims = pvc
