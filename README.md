@@ -31,7 +31,7 @@ kubectl delete --all pods --namespace=default
 kubectl delete --all pods -n default
 kubectl get namespaces
  or kubectl get ns
-<h1> Create Namespace <h1>
+<h1> Create Namespace </h1>
 kubectl create ns dev-ns
 kubectl scale --replicas=2 rs/new-replica-set
 kubectl get all
