@@ -159,3 +159,37 @@ k expose deployment ingress-controller -n ingress-space --name ingress --port=80
 <pre>k get persistentvolume
 k get persistentvolumeclaim
 k delete persistentvolume myclaim</pre>
+<h1>List of shortnames</h1>
+<pre>
+componentstatuses = cs
+configmaps = cm
+endpoints = ep
+events = ev
+limitranges = limits
+namespaces = ns
+nodes = no
+persistentvolumeclaims = pvc
+persistentvolumes = pv
+pods = po
+replicationcontrollers = rc
+resourcequotas = quota
+serviceaccounts = sa
+services = svc
+customresourcedefinitions = crd, crds
+daemonsets = ds
+deployments = deploy
+replicasets = rs
+statefulsets = sts
+horizontalpodautoscalers = hpa
+cronjobs = cj
+certificiaterequests = cr, crs
+certificates = cert, certs
+certificatesigningrequests = csr
+ingresses = ing
+networkpolicies = netpol
+podsecuritypolicies = psp
+replicasets = rs
+scheduledscalers = ss
+priorityclasses = pc
+storageclasses = sc
+</pre>
