@@ -70,6 +70,12 @@ kubectl expose pod redis --port=6379 --name redis-service --dry-run=client -o ya
 k expose deploy/simple-webapp-deployment --port=8080 --target-port=8080 --type=NodePort --name=webapp-service --node-port=30080 --dry-run=client -o yaml
 kubectl expose pod redis --port=6379 --name=redis-service
 kubectl expose pod httpd --port=80 --name httpd
+</pre>
+<h1>Access service in browser</h1>
+<pre>
+ ubectl port-forward --address 0.0.0.0 svc/nginx 8080:80
+Forwarding from 0.0.0.0:8080 -> 80
+Handling connection for 8080
 k expose deployment redis --port=6379 -n marketing --name=messaging-service
 kubectl edit pod ubuntu-pod.yaml
 kubectl replace --force -f /tmp/kubectl-edit-22343.yaml
