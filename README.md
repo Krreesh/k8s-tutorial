@@ -200,3 +200,24 @@ scheduledscalers = ss
 priorityclasses = pc
 storageclasses = sc
 </pre>
+<h1>Check health of ETCD database</h1>
+<pre>
+ kubectl -n kube-system exec -it etcd-ip-172-31-88-75 -- sh -c \
+"ETCDCTL_API=3 \
+ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \
+ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \
+ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \
+etcdctl endpoint health"
+</pre>
+<h1>NETWORK COMMANDS</h1>
+<pre>
+ip link
+ip addr
+ip addr add 192.168.1.10/24 dev eth0
+ip route
+ip route add 192.168.1.10/24  via 192.168.2.1
+cat /proc/sys/net/ipv4/ip_forward
+arp
+route
+netstat -tnlp
+</pre>
