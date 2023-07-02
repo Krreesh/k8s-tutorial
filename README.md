@@ -76,6 +76,8 @@ kubectl expose pod httpd --port=80 --name httpd
 kubectl port-forward --address 0.0.0.0 svc/nginx 8080:80
     Forwarding from 0.0.0.0:8080 -> 80
     Handling connection for 8080
+kubectl proxy --address 0.0.0.0 --accept-hosts '.*'
+  Starting to serve on [::]:8001
 k expose deployment redis --port=6379 -n marketing --name=messaging-service
 kubectl edit pod ubuntu-pod.yaml
 kubectl replace --force -f /tmp/kubectl-edit-22343.yaml
