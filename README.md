@@ -232,3 +232,14 @@ kubectl patch pvc <PVC_NAME> -p '{"metadata":{"finalizers": []}}' --type=merge
 </pre>
 PVC will be delete after patching. Now delete pod forcefully<br>
 k delete po web-0 --force
+<h1>How to fix kubernetes disk pressure</h1>
+<pre>Here are the Linux commands to check this on your Node:
+
+memory.available<100Mi free -hm | awk 'NR==2{print $7}' #output has to be higher than 100Mi
+nodefs.available<10% df -h / | awk 'NR==2{print $5}' #output has to be lower than 90%
+imagefs.available<15%
+containerd: df -h /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs | awk 'NR==2{print $5}' #output has to be lower than 85%
+docker: df -h /var/lib/docker | awk 'NR==2{print $5}' #output has to be lower than 85%
+nodefs.inodesFree<5% (Linux nodes) df -i / | awk 'NR==2{print $5}' #output has to be lower than 95%
+To get a overview to where all your storage went use: du / -d 1 -h 2> /dev/null | sort -hr
+</pre>
