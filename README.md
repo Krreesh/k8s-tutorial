@@ -223,3 +223,12 @@ arp
 route
 netstat -tnlp
 </pre>
+<h1>How to remove PVC, Pod stuck at terminating state</h1>
+<h2>I noticed that one PVC was stuck in “terminating” status for quite a while.</h2><br>
+ <br>kubectl get volumeattachment
+ <br>
+ <pre>
+kubectl patch pvc <PVC_NAME> -p '{"metadata":{"finalizers": []}}' --type=merge
+</pre>
+PVC will be delete after patching. Now delete pod forcefully<br>
+k delete po web-0 --force
