@@ -236,7 +236,7 @@ k delete po web-0 --force
 Here are the Linux commands to check this on your Node:
 
 memory.available<100Mi <br>
-free -hm | awk 'NR==2{print $7}' #output has to be higher than 100Mi
+<pre>free -hm | awk 'NR==2{print $7}' #output has to be higher than 100Mi</pre>
 nodefs.available<10%<br> <pre>df -h / | awk 'NR==2{print $5}' #output has to be lower than 90%</pre>
 imagefs.available<15% <br>
 containerd: <br><pre>df -h /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs | awk 'NR==2{print $5}' #output has to be lower than 85%</pre>
