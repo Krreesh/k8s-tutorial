@@ -233,13 +233,18 @@ kubectl patch pvc <PVC_NAME> -p '{"metadata":{"finalizers": []}}' --type=merge
 PVC will be delete after patching. Now delete pod forcefully<br>
 k delete po web-0 --force
 <h1>How to fix kubernetes disk pressure</h1>
-<pre>Here are the Linux commands to check this on your Node:
+Here are the Linux commands to check this on your Node:
 
-memory.available<100Mi free -hm | awk 'NR==2{print $7}' #output has to be higher than 100Mi
-nodefs.available<10% df -h / | awk 'NR==2{print $5}' #output has to be lower than 90%
-imagefs.available<15%
-containerd: df -h /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs | awk 'NR==2{print $5}' #output has to be lower than 85%
-docker: df -h /var/lib/docker | awk 'NR==2{print $5}' #output has to be lower than 85%
-nodefs.inodesFree<5% (Linux nodes) df -i / | awk 'NR==2{print $5}' #output has to be lower than 95%
-To get a overview to where all your storage went use: du / -d 1 -h 2> /dev/null | sort -hr
-</pre>
+memory.available<100Mi <br>
+free -hm | awk 'NR==2{print $7}' #output has to be higher than 100Mi
+nodefs.available<10%<br> <pre>df -h / | awk 'NR==2{print $5}' #output has to be lower than 90%</pre>
+imagefs.available<15% <br>
+containerd: <br><pre>df -h /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs | awk 'NR==2{print $5}' #output has to be lower than 85%</pre>
+docker: <br><pre>df -h /var/lib/docker | awk 'NR==2{print $5}' #output has to be lower than 85%</pre>
+nodefs.inodesFree<5% (Linux nodes) <br> <pre>df -i / | awk 'NR==2{print $5}' #output has to be lower than 95%</pre>
+<br>To get a overview to where all your storage went use:<br> <pre>du / -d 1 -h 2> /dev/null | sort -hr </pre>
+<br>Using crictl tool to identify and remove unused images<br>
+<pre>crictl rmi -q</pre>
+<h3>If this does not work, this likely indicates that your workload is simply trying to use more disk space than is available.<br>
+If this is the case, your options are to reduce your disk usage or to increase the total disk space on your nodes.</h3>
+
