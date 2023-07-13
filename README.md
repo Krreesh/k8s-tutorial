@@ -247,4 +247,21 @@ nodefs.inodesFree<5% (Linux nodes) <br> <pre>df -i / | awk 'NR==2{print $5}' #ou
 <pre>crictl rmi -q</pre>
 <h3>If this does not work, this likely indicates that your workload is simply trying to use more disk space than is available.<br>
 If this is the case, your options are to reduce your disk usage or to increase the total disk space on your nodes.</h3>
+<h1>INGRESS ERROR: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook</h1>
+<pre>kubectl create -f ingress.yaml </pre>
+Above command fails. Then run below command:<br>
+<pre>kubectl api-resources --namespaced=false
+NAME                              SHORTNAMES   APIVERSION                             NAMESPACED   KIND
+componentstatuses                 cs           v1                                     false        ComponentStatus
+namespaces                        ns           v1                                     false        Namespace
+nodes                             no           v1                                     false        Node
+persistentvolumes                 pv           v1                                     false        PersistentVolume
+mutatingwebhookconfigurations                  admissionregistration.k8s.io/v1        false        MutatingWebhookConfiguration
+validatingwebhookconfigurations                admissionregistration.k8s.io/v1        false        ValidatingWebhookConfiguration
+</pre>
+Delete validatingwebhookconfigurations resource<br>
+<pre>kubectl delete validatingwebhookconfigurations ingress-nginx-admission</pre>
+<p>Run again below command</p>
+<pre>kubectl create -f ingress.yaml 
+ingress.networking.k8s.io/ingress-test created</pre>
 
