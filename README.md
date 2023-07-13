@@ -151,7 +151,10 @@ kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear*=wear-
 k describe ingress -n app-space
 kubectl create ingress mypay -n critical-space --rule="/pay=pay-service:8282"
 kubectl create ingress ingress-wear-watch --rule="/wear=wear-service:8080" --rule="/watch=video-service:8080" -n app-space</pre>
-<h1> GET ROLE & ROLEBINDINGS </h1>
+
+<h3>Install ingress-nginx <a href="https://github.com/kubernetes/ingress-nginx/blob/main/docs/deploy/index.md">Click here</a></h3>
+
+ <h1> GET ROLE & ROLEBINDINGS </h1>
 <pre>k get role -n ingress-space 
 k get rolebindings -n ingress-space 
 k describe role ingress-role -n ingress-space 
