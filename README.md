@@ -267,4 +267,47 @@ Delete validatingwebhookconfigurations resource<br>
 <p>Run again below command</p>
 <pre>kubectl create -f ingress.yaml 
 ingress.networking.k8s.io/ingress-test created</pre>
+<h1>Solved "Error while dialing dial unix /var/run/dockershim.sock"</h1>
+<p>When trying list containers or images using below command, below error is thrown:</p>
+<pre>
+ ubuntu@ip-172-31-88-75:~$ crictl ps
+E0714 03:59:49.377713    1892 remote_runtime.go:390] "ListContainers with filter from runtime service failed" err="rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing dial unix /run/containerd/containerd.sock: connect: permission denied\"" filter="&ContainerFilter{Id:,State:&ContainerStateValue{State:CONTAINER_RUNNING,},PodSandboxId:,LabelSelector:map[string]string{},}"
+FATA[0002] listing containers: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial unix /run/containerd/containerd.sock: connect: permission denied" 
+ubuntu@ip-172-31-88-75:~$ crictl img
+E0714 04:03:07.460050    5529 remote_image.go:119] "ListImages with filter from image service failed" err="rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing dial unix /run/containerd/containerd.sock: connect: permission denied\"" filter="&ImageFilter{Image:&ImageSpec{Image:,Annotations:map[string]string{},},}"
+FATA[0000] listing images: rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing dial unix /run/containerd/containerd.sock: connect: permission denied" 
+</pre>
+<p>Before fixing above error, you need to first check the currently installed container runtime in your System by using kubectl get nodes -o wide command as shown below.</p>
+<pre>
+ ubuntu@ip-172-31-88-75:~$ k get no -o wide
+NAME              STATUS     ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION    CONTAINER-RUNTIME
+ip-172-31-80-7    NotReady   <none>          23d   v1.25.1   172.31.80.7    <none>        Ubuntu 20.04.6 LTS   5.15.0-1039-aws   containerd://1.6.21
+ip-172-31-88-75   Ready      control-plane   23d   v1.26.1   172.31.88.75   <none>        Ubuntu 20.04.6 LTS   5.15.0-1039-aws   containerd://1.6.21
+worker            Ready      <none>          17d   v1.26.1   172.31.95.67   <none>        Ubuntu 20.04.6 LTS   5.15.0-1039-aws   containerd://1.6.21
+</pre>
+<p>As you can see from above, it is containerd runtime in our case. So the error is simply because I have configured dockershim endpoint to be used in crictl configuration which I don't have in my local system. So to fix the above error, I reconfigured crictl endpoint to use containerd runtime instead of dockershim using below command.</p>
+<pre>
+echo "===================================" &&\
+echo "Config BEFORE change:" &&\
+sudo cat /etc/crictl.yaml &&\
+sudo crictl config --set runtime-endpoint=unix:///run/containerd/containerd.sock --set image-endpoint=unix:///run/containerd/containerd.sock &&\
+echo "===================================" &&\
+echo "Config AFTER change:" &&\
+sudo cat /etc/crictl.yaml
+</pre>
+<p>Now run <pre>crictl img</pre> or <pre>crictl ps</pre>, it works:</p>
+<pre>ubuntu@ip-172-31-88-75:~$ crictl img
+IMAGE                                     TAG                 IMAGE ID            SIZE
+docker.io/calico/cni                      v3.25.0             d70a5947d57e5       88MB
+docker.io/calico/kube-controllers         v3.25.0             5e785d005ccc1       31.3MB
+docker.io/calico/node                     v3.25.0             08616d26b8e74       87.2MB
+...
+ ubuntu@ip-172-31-88-75:~$ crictl ps
+CONTAINER           IMAGE               CREATED             STATE               NAME                      ATTEMPT             POD ID              POD
+3081914fada00       5185b96f0becf       13 minutes ago      Running             coredns                   25                  64c5d46f086a1       coredns-787d4945fb-rxzcm
+f517b7be7b44e       5185b96f0becf       13 minutes ago      Running             coredns                   25                  5974563a46ccb       coredns-787d4945fb-2dvg2
+</pre>
+<h1>while dialing dial unix /run/containerd/containerd.sock: connect: permission denied</h1>
+Change permission /run/containerd/containerd.sock to 666:
+<pre>chmod 666 /run/containerd/containerd.sock</pre>
 
