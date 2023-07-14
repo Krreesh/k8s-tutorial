@@ -307,7 +307,7 @@ CONTAINER           IMAGE               CREATED             STATE               
 3081914fada00       5185b96f0becf       13 minutes ago      Running             coredns                   25                  64c5d46f086a1       coredns-787d4945fb-rxzcm
 f517b7be7b44e       5185b96f0becf       13 minutes ago      Running             coredns                   25                  5974563a46ccb       coredns-787d4945fb-2dvg2
 </pre>
-<h1>while dialing dial unix /run/containerd/containerd.sock: connect: permission denied</h1>
+<h1>Solved "Error while dialing dial unix /run/containerd/containerd.sock: connect: permission denied</h1>
 Change permission /run/containerd/containerd.sock to 666:
 <pre>chmod 666 /run/containerd/containerd.sock</pre>
 
