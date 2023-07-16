@@ -309,7 +309,12 @@ f517b7be7b44e       5185b96f0becf       13 minutes ago      Running             
 </pre>
 <h1>Solved "Error while dialing dial unix /run/containerd/containerd.sock: connect: permission denied</h1>
 Change permission /run/containerd/containerd.sock to 666:
-<pre>chmod 666 /run/containerd/containerd.sock</pre>
+<pre>chmod 666 /run/containerd/containerd.sock
+[ec2-user@centosworker ~]$ sudo chmod 666 /var/run/crio/crio.sock
+ CONTAINER           IMAGE               CREATED             STATE               NAME                      ATTEMPT             POD ID              POD
+5e8ef5ac8a88b       46a6bb3c77ce0       43 minutes ago      Running             kube-proxy                34                  7849a2c8836c8       kube-proxy-2gf9z
+b28972334bd00       deb04688c4a35       44 minutes ago      Running             kube-apiserver            36                  b7aa5fb37b3ed       kube-apiserver-ip-172-31-88-75
+</pre>
 <h1>Solved Error Pods stuck in Terminating status</h1>
 <pre>
  NAME                        READY   STATUS        RESTARTS   AGE
