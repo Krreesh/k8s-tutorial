@@ -310,4 +310,16 @@ f517b7be7b44e       5185b96f0becf       13 minutes ago      Running             
 <h1>Solved "Error while dialing dial unix /run/containerd/containerd.sock: connect: permission denied</h1>
 Change permission /run/containerd/containerd.sock to 666:
 <pre>chmod 666 /run/containerd/containerd.sock</pre>
+<h1>Solved Error Pods stuck in Terminating status</h1>
+<pre>
+ NAME                        READY   STATUS        RESTARTS   AGE
+nginx                       0/1     Terminating   0          7h53m
+</pre>
+<h3>You can use following command to delete the POD forcefully.</h3>
+<pre>
+ kubectl delete pod <PODNAME> --grace-period=0 --force --namespace <NAMESPACE>
 
+ [ec2-user@centosworker ~]$ k delete po nginx --grace-period=0 --force
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "nginx" force deleted
+</pre>
