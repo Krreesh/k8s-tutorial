@@ -328,3 +328,38 @@ nginx                       0/1     Terminating   0          7h53m
 Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
 pod "nginx" force deleted
 </pre>
+<h1>plugin type=\"calico\" failed (delete) error getting clusterinformation: connection is unauthorized: unauthorized" podsandbox</h1>
+Above error causes pod to get stuck in ContainerCreating:<br>
+<pre>
+ ubuntu@ip-172-31-88-75:~$ k get po
+NAME                        READY   STATUS              RESTARTS   AGE
+nginx                       0/1     ContainerCreating   0          36m
+</pre>
+Add the following environment variables for the calico-node container in the manifest of the calico-node DaemonSet:
+CALICO_MANAGE_CNI="false". <br>
+In calico.yaml, search DaemonSet named calico-node and add environment variable CALICO_MANAGE_CNI with false value as below:<br>
+<pre>
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: calico-node
+  namespace: kube-system
+  labels:
+    k8s-app: calico-node
+ ...
+           env:
+            - name: CALICO_MANAGE_CNI
+              value: "false"
+</pre>
+<h3>Apply the calico policy change by running below command:</h3>
+<pre>
+ubuntu@ip-172-31-88-75:~$ k apply -f calico.yaml 
+poddisruptionbudget.policy/calico-kube-controllers configured
+serviceaccount/calico-kube-controllers unchanged
+serviceaccount/calico-node created
+configmap/calico-config created
+ ...
+ubuntu@ip-172-31-88-75:~$ k get po -w
+NAME     READY   STATUS    RESTARTS   AGE
+nginx    1/1     Running   0          46m
+</pre>
