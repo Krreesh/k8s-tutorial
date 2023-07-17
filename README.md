@@ -247,7 +247,7 @@ docker: <br><pre>df -h /var/lib/docker | awk 'NR==2{print $5}' #output has to be
 nodefs.inodesFree<5% (Linux nodes) <br> <pre>df -i / | awk 'NR==2{print $5}' #output has to be lower than 95%</pre>
 <br>To get a overview to where all your storage went use:<br> <pre>du / -d 1 -h 2> /dev/null | sort -hr </pre>
 <br>Using crictl tool to identify and remove unused images<br>
-<pre>crictl rmi -q</pre>
+<pre>crictl rmi --prune</pre>
 <h3>If this does not work, this likely indicates that your workload is simply trying to use more disk space than is available.<br>
 If this is the case, your options are to reduce your disk usage or to increase the total disk space on your nodes.</h3>
 <h1>INGRESS ERROR: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook</h1>
