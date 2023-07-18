@@ -370,3 +370,5 @@ nginx    1/1     Running   0          46m
  source ~/.bashrc
  k - <TAB><TAB> #to test if auto-completion works
 </pre>
+<h1>Backup resource configuration</h1>
+<pre>k get all -A -o yaml > all-deployed-svc.yaml</pre>
