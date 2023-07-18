@@ -363,3 +363,10 @@ ubuntu@ip-172-31-88-75:~$ k get po -w
 NAME     READY   STATUS    RESTARTS   AGE
 nginx    1/1     Running   0          46m
 </pre>
+<h1>Set Up an Alias for Kubectl and Enable for Auto-completion</h1>
+<pre>
+ echo 'alias k=kubectl' >>~/.bashrc
+ echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
+ source ~/.bashrc
+ k - <TAB><TAB> #to test if auto-completion works
+</pre>
