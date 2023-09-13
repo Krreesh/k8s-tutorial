@@ -380,3 +380,12 @@ nginx    1/1     Running   0          46m
  or
  yum install bash-completion
 </p>
+<pre>
+ kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+</pre>
+<p>After installing the auto-complete I will reload the Bash shell using the line below.</p>
+<pre>source /usr/share/bash-completion/bash_completion</pre>
+<p>Set an alias for kubectl as k</p>
+<pre>echo 'alias k=kubectl' >>~/.bashrc
+echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
+</pre>
