@@ -372,3 +372,11 @@ nginx    1/1     Running   0          46m
 </pre>
 <h1>Backup resource configuration</h1>
 <pre>k get all -A -o yaml > all-deployed-svc.yaml</pre>
+<h1>Set up Auto-completion</h1>
+<p>Check if bash-completion is already installed:</p>
+<pre>type _init_completion</pre>
+<p>
+ apt-get install bash-completion 
+ or
+ yum install bash-completion
+</p>
