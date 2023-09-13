@@ -374,12 +374,12 @@ nginx    1/1     Running   0          46m
 <pre>k get all -A -o yaml > all-deployed-svc.yaml</pre>
 <h1>Set up Auto-completion</h1>
 <p>Check if bash-completion is already installed:</p>
-<pre>type _init_completion</pre>
-<p>
+<pre>type _init_completion
  apt-get install bash-completion 
  or
  yum install bash-completion
-</p>
+</pre>
+  <p>Set the kubectl completion script source for your shell sessions:</p>
 <pre>
  kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
 </pre>
