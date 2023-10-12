@@ -389,3 +389,10 @@ nginx    1/1     Running   0          46m
 <pre>echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 </pre>
+<h1>Check memory utilization </h1>
+<pre>
+ # ps -o pid,user,%mem,command ax | sort -b -k3 -r
+ PID USER     %MEM COMMAND
+ 1234 mysql    25.0 /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --user=mysql --log-error=/var/log/mysqld.log --pid-file=/var/run/mysqld/mysqld.pid --socket=/var/lib/mysql/mysql.sock
+ 5678 apache    1.3 /usr/sbin/httpd
+</pre>
