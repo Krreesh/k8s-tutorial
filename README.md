@@ -396,3 +396,9 @@ echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
  1234 mysql    25.0 /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --user=mysql --log-error=/var/log/mysqld.log --pid-file=/var/run/mysqld/mysqld.pid --socket=/var/lib/mysql/mysql.sock
  5678 apache    1.3 /usr/sbin/httpd
 </pre>
+
+#How to get public ip address of your linux machin
+<h2>If you're not sure about your server's public IP address, run the command below to print it to the standard output:</h2>
+<pre>curl -4 icanhazip.com</pre>
+<br> OR (only for AWS cloud)<br>
+<pre>curl http://checkip.amazonaws.com</pre>
