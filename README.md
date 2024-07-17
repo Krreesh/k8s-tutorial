@@ -402,3 +402,15 @@ echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 <pre>curl -4 icanhazip.com</pre>
 <br> OR (only for AWS cloud)<br>
 <pre>curl http://checkip.amazonaws.com</pre>
+<br><h1>Vim Editor setting</h1>
+<br>
+<pre>
+ set expandtab
+set tabstop=2
+set shiftwidth=2
+set autoindent
+set smartindent
+set bg=dark
+set nowrap
+set paste
+</pre>
