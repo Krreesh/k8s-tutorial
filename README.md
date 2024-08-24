@@ -414,3 +414,6 @@ set bg=dark
 set nowrap
 set paste
 </pre>
+<h2>Error-Failed to create pod sandbox: open /run/systemd/resolve/resolv.conf: no such file or directory</h2>
+<br>
+As your system has systemd-resolved installed and running, it would be the preferred mechanism here. Symlink /etc/resolv.conf to either /run/systemd/resolve/resolv.conf for direct access to the configured DNS servers, or to /run/systemd/resolve/stub-resolv.conf for using systemd-resolved as a local DNS cache.
