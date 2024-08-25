@@ -418,36 +418,3 @@ set paste
 <br>
 As your system has systemd-resolved installed and running, it would be the preferred mechanism here. Symlink /etc/resolv.conf to either /run/systemd/resolve/resolv.conf for direct access to the configured DNS servers, or to /run/systemd/resolve/stub-resolv.conf for using systemd-resolved as a local DNS cache.
 <hr>
-<h1> Create a user in kubernetes and grant access</h1>
-<pre>
-  853  openssl req -key john.key -subj="/CN=john/O=developers" -out john.csr 
-  854  openssl req -new -key john.key -subj="/CN=john/O=developers" -out john.csr 
-  991  openssl req -new -key john.key -subj="/CN=john/O=developers" -out john.csr 
- 1060  openssl req -new -key john.key -subj "/CN=john/O=developers" -out john.csr
- 1136  openssl req -new -key john.key -out john.csr -subj="/CN=john,/O=developer"
- 1176  #kubectl create role developer --verb=create --verb=get --verb=list --verb=update --verb=delete --resource=pods
- 1375  openssl req new -key john.key -out john.csr -subj="/CN=john,/O=developers"
- 1376  openssl req -new -key john.key -out john.csr -subj="/CN=john,/O=developers"
- 1521  openssl genrsa -out developer.key 2048
- 1522  openssl req -new -key developer.key -out developer.csr -subj "/CN=developer"
- 1524  cat developer.csr | base64 
- 1525  REQ=$(cat developer.csr | base64 | tr -d "\n")
-  name: developer-csr
- 1531  kubectl certificate approve developer-csr
- 1532  kubectl get csr developer-csr -o jsonpath='{.status.certificate}' | base64 --decode > developer.crt
- 1534  kubectl config set-cluster kubernetes --server=https://k8scp:6443 --certificate-authority=/etc/kubernetes/pki/ca.crt --embed-certs=true --kubeconfig=developer.kubeconfig
- 1536  kubectl config set-credentials developer --client-certificate=developer.crt --client-key=developer.key --embed-certs=true --kubeconfig=developer.kubeconfig
- 1537  kubectl config set-context developer-context --cluster=kubernetes --namespace=default --user=developer --kubeconfig=developer.kubeconfig
- 1538  kubectl config use-context developer-context --kubeconfig=developer.kubeconfig
- 1539  kubectl --kubeconfig=developer.kubeconfig get pods
- 1540  cat <<EOF > developer-cluster-role.yaml
-  name: developer-role
- 1541  cat <<EOF > developer-role-binding.yaml
-  name: developer-binding
-  name: developer
-  name: developer-role
- 1542  kubectl apply -f developer-cluster-role.yaml -f developer-role-binding.yaml
- 1543  kubectl --kubeconfig=developer.kubeconfig get pods
- 1553  k --kubeconfig developer.config config view
- 1554  kubectl --kubeconfig=developer.kubeconfig config view
-</pre>
