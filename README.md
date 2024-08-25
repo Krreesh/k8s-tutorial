@@ -417,7 +417,8 @@ set paste
 <h2>Error-Failed to create pod sandbox: open /run/systemd/resolve/resolv.conf: no such file or directory</h2>
 <br>
 As your system has systemd-resolved installed and running, it would be the preferred mechanism here. Symlink /etc/resolv.conf to either /run/systemd/resolve/resolv.conf for direct access to the configured DNS servers, or to /run/systemd/resolve/stub-resolv.conf for using systemd-resolved as a local DNS cache.
-##### Create a user in kubernetes and grant access
+<hr>
+<h1> Create a user in kubernetes and grant access</h1>
 <pre>
   853  openssl req -key john.key -subj="/CN=john/O=developers" -out john.csr 
   854  openssl req -new -key john.key -subj="/CN=john/O=developers" -out john.csr 
