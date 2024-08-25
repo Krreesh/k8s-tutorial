@@ -418,7 +418,7 @@ set paste
 <br>
 As your system has systemd-resolved installed and running, it would be the preferred mechanism here. Symlink /etc/resolv.conf to either /run/systemd/resolve/resolv.conf for direct access to the configured DNS servers, or to /run/systemd/resolve/stub-resolv.conf for using systemd-resolved as a local DNS cache.
 ##### Create a user in kubernetes and grant access
-```sh
+<pre>
   853  openssl req -key john.key -subj="/CN=john/O=developers" -out john.csr 
   854  openssl req -new -key john.key -subj="/CN=john/O=developers" -out john.csr 
   991  openssl req -new -key john.key -subj="/CN=john/O=developers" -out john.csr 
@@ -449,4 +449,4 @@ As your system has systemd-resolved installed and running, it would be the prefe
  1543  kubectl --kubeconfig=developer.kubeconfig get pods
  1553  k --kubeconfig developer.config config view
  1554  kubectl --kubeconfig=developer.kubeconfig config view
-```
+</pre>
