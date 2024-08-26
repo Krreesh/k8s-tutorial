@@ -418,3 +418,76 @@ set paste
 <br>
 As your system has systemd-resolved installed and running, it would be the preferred mechanism here. Symlink /etc/resolv.conf to either /run/systemd/resolve/resolv.conf for direct access to the configured DNS servers, or to /run/systemd/resolve/stub-resolv.conf for using systemd-resolved as a local DNS cache.
 <hr>
+<h1>Create user in kubernetes cluster and grant access</h1>
+<pre>
+openssl genrsa -out developer.key 2048
+openssl req -new -key developer.key -out developer.csr -subj "/CN=developer"
+cat <<EOF > csr_template.yaml
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: developer-csr
+spec:
+  request: <Base64_encoded_CSR>
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - client auth
+EOF
+CSR_CONTENT=$(cat developer.csr | base64 | tr -d '\n')
+sed "s|<Base64_encoded_CSR>|$CSR_CONTENT|" csr_template.yaml > developer_csr.yaml
+kubectl create -f developer_csr.yamls
+kubectl get csr
+kubectl certificate approve developer-csr
+kubectl get csr developer-csr -o jsonpath='{.status.certificate}' | base64 --decode > developer.crt
+kubectl get csr
+kubectl config view
+ls /etc/kubernetes/pki/
+# Set Cluster Configuration:
+kubectl config set-cluster kubernetes --server=https://k8scp:6443 --certificate-authority=/etc/kubernetes/pki/ca.crt --embed-certs=true --kubeconfig=developer.kubeconfig
+# Set Credentials for Developer:
+kubectl config set-credentials developer --client-certificate=developer.crt --client-key=developer.key --embed-certs=true --kubeconfig=developer.kubeconfig
+# Set Developer Context: 
+kubectl config set-context developer-context --cluster=kubernetes --namespace=default --user=developer --kubeconfig=developer.kubeconfig
+# Use Developer Context:
+kubectl config use-context developer-context --kubeconfig=developer.kubeconfig
+# Verify the kubeconfig file’s configuration:
+kubectl --kubeconfig=developer.kubeconfig get pods
+# Assign Roles and Bindings for the Developer User
+# developer-cluster-role.yaml
+cat <<EOF > developer-cluster-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: developer-role
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["*"]
+  verbs: ["*"]
+EOF
+# developer-role-binding.yaml
+cat <<EOF > developer-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-binding
+  namespace: default
+subjects:
+- kind: User
+  name: developer
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: developer-role
+  apiGroup: rbac.authorization.k8s.io
+EOF
+
+# Apply the roles and role bindings:
+kubectl apply -f developer-cluster-role.yaml -f developer-role-binding.yaml
+# Verify developer User Rights
+kubectl --kubeconfig=developer.kubeconfig get pods
+kubectl --kubeconfig=developer.kubeconfig run nginx --image=nginx
+kubectl --kubeconfig=developer.kubeconfig get pods
+k --kubeconfig developer.config config view
+# Developer cannot get pods in other namespaces because only default namespace is permitted in clusterrole
+kubectl --kubeconfig=developer.kubeconfig get pods -A 
+</pre>
