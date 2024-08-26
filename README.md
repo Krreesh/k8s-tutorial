@@ -434,7 +434,7 @@ spec:
   - client auth
 EOF
 CSR_CONTENT=$(cat developer.csr | base64 | tr -d '\n')
-sed "s|<Base64_encoded_CSR>|$CSR_CONTENT|" csr_template.yaml > developer_csr.yaml
+sed "s|&lt;Base64_encoded_CSR &gt;|$CSR_CONTENT|" csr_template.yaml > developer_csr.yaml
 kubectl create -f developer_csr.yamls
 kubectl get csr
 kubectl certificate approve developer-csr
