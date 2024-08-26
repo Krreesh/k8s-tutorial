@@ -422,7 +422,7 @@ As your system has systemd-resolved installed and running, it would be the prefe
 <pre>
 openssl genrsa -out developer.key 2048
 openssl req -new -key developer.key -out developer.csr -subj "/CN=developer"
-cat \<<EOF > csr_template.yaml
+cat &lt;&lt;EOF > csr_template.yaml
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata:
@@ -454,7 +454,7 @@ kubectl config use-context developer-context --kubeconfig=developer.kubeconfig
 kubectl --kubeconfig=developer.kubeconfig get pods
 # Assign Roles and Bindings for the Developer User
 # developer-cluster-role.yaml
-cat \<<EOF > developer-cluster-role.yaml
+cat &lt;&lt;EOF > developer-cluster-role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -465,7 +465,7 @@ rules:
   verbs: ["*"]
 EOF
 # developer-role-binding.yaml
-cat \<<EOF > developer-role-binding.yaml
+cat &lt;&lt;EOF > developer-role-binding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
