@@ -363,13 +363,7 @@ ubuntu@ip-172-31-88-75:~$ k get po -w
 NAME     READY   STATUS    RESTARTS   AGE
 nginx    1/1     Running   0          46m
 </pre>
-<h1>Set Up an Alias for Kubectl and Enable for Auto-completion</h1>
-<pre>
- echo 'alias k=kubectl' >>~/.bashrc
- echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
- source ~/.bashrc
- k - <TAB><TAB> #to test if auto-completion works
-</pre>
+
 <h1>Backup resource configuration</h1>
 <pre>k get all -A -o yaml > all-deployed-svc.yaml</pre>
 <h1>Set up Auto-completion</h1>
@@ -385,9 +379,11 @@ nginx    1/1     Running   0          46m
 </pre>
 <p>After installing the auto-complete I will reload the Bash shell using the line below.</p>
 <pre>source /usr/share/bash-completion/bash_completion</pre>
-<p>Set an alias for kubectl as k</p>
+<p>Set Up an Alias for Kubectl and Enable for Auto-completion</p>
 <pre>echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
+source ~/.bashrc 
+k - <TAB><TAB> #to test if auto-completion works
 </pre>
 <h1>Check memory utilization </h1>
 <pre>
