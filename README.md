@@ -363,7 +363,18 @@ ubuntu@ip-172-31-88-75:~$ k get po -w
 NAME     READY   STATUS    RESTARTS   AGE
 nginx    1/1     Running   0          46m
 </pre>
-
+<h1>Solved: Container runtime network not ready: cni config uninitialized</h1>
+<pre>
+ root@k8scp:~# systemctl stop apparmor
+root@k8scp:~# systemctl disable apparmor
+Synchronizing state of apparmor.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install disable apparmor
+Removed /etc/systemd/system/sysinit.target.wants/apparmor.service.
+root@k8scp:~# systemctl restart containerd.service
+root@k8scp:~# k get no
+NAME    STATUS   ROLES           AGE   VERSION
+k8scp   Ready    control-plane   32m   v1.26.1
+</pre>
 <h1>Backup resource configuration</h1>
 <pre>k get all -A -o yaml > all-deployed-svc.yaml</pre>
 <h1>Set up Auto-completion</h1>
