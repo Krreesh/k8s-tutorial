@@ -375,6 +375,16 @@ root@k8scp:~# k get no
 NAME    STATUS   ROLES           AGE   VERSION
 k8scp   Ready    control-plane   32m   v1.26.1
 </pre>
+<h1>Solved: Worker node joining error - error execution phase kubelet-start: error uploading crisocket: timed out waiting for the condition</h1>
+<br>
+<ol>swapoff -a => all nodes.</ol>
+<ol>systemctl restart kubelet</ol>
+<ol>iptables -F</ol>
+<ol>rm -rf /var/lib/cni/</ol>
+<ol>systemctl restart containerd</ol>
+<ol>systemctl daemon-reload</ol>
+<ol>kubeadm join XXXXXXXXXXXXXXXXXXX</ol>
+
 <h1>Backup resource configuration</h1>
 <pre>k get all -A -o yaml > all-deployed-svc.yaml</pre>
 <h1>Set up Auto-completion</h1>
