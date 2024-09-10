@@ -507,4 +507,8 @@ kubectl --kubeconfig=developer.kubeconfig get pods
 k --kubeconfig developer.config config view
 # Developer cannot get pods in other namespaces because only default namespace is permitted in clusterrole
 kubectl --kubeconfig=developer.kubeconfig get pods -A 
+
+# Install kube-bench from container
+docker run --rm -v `pwd`:/host docker.io/aquasec/kube-bench:latest install
+
 </pre>
