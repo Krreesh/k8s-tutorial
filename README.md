@@ -510,5 +510,9 @@ kubectl --kubeconfig=developer.kubeconfig get pods -A
 
 # Install kube-bench from container
 docker run --rm -v `pwd`:/host docker.io/aquasec/kube-bench:latest install
-# You can run ./kube-bench
+# You can run 
+./kube-bench
+
+# Static Analysis
+curl -sSX POST --data-binary @"pod.yaml" https://v2.kubesec.io/scan
 </pre>
