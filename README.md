@@ -510,5 +510,5 @@ kubectl --kubeconfig=developer.kubeconfig get pods -A
 
 # Install kube-bench from container
 docker run --rm -v `pwd`:/host docker.io/aquasec/kube-bench:latest install
-
+# You can run ./kube-bench
 </pre>
